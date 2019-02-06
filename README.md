@@ -64,6 +64,9 @@ IN scenario where mgirations needs to be re-run with the same image, the Job obj
     - postgresql gcp setup
     - serve static content using CDN
     - local dev using minikube and port forwarding and hot reloading
+- Autoscaling
+    - run application in cloud
+    - run a second server on GCP and use it with docker to constantly ping main server and test autoscaling
 
 ## Development Notes
 - Using DB as a service provides features that can be hard to implement and manage well
@@ -73,6 +76,8 @@ IN scenario where mgirations needs to be re-run with the same image, the Job obj
     - easy snapshots and backup
     - security patches and db monitoring
 - Kubernetes allows the use of the service name i.e. postgres-service for domain name resolution to the pod IP.
+- run migrations via CLI
+    - `kubectl exec <pod_name> -- python /app/manage.py migrate`
 
 
 ## Steps

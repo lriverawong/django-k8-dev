@@ -1,5 +1,5 @@
 """
-WSGI config for kubernetes_django project.
+WSGI config for django-k8-app project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kubernetes_django.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django-k8-app.settings")
 
 application = get_wsgi_application()

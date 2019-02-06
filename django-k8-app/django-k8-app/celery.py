@@ -3,9 +3,9 @@ import os
 from celery import Celery
 
 # set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'kubernetes_django.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django-k8-app.settings')
 
-app = Celery('kubernetes_django')
+app = Celery('django-k8-app')
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
@@ -16,6 +16,13 @@ app.config_from_object('django.conf:settings')
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
 
+# beat scheduling 
+app.conf.beat_schedule = {
+    'display_time-20-seconds': {
+        'task': 'demoapp.tasks.display_time',
+        'schedule': 20.0
+    },
+}
 
 @app.task(bind=True)
 def debug_task(self):
