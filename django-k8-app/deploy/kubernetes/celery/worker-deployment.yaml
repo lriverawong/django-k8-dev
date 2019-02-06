@@ -1,24 +1,23 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: django
+  name: celery-worker
   labels:
-    app: django
+    deployment: celery-worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: django-container
+      pod: celery-worker
   template:
     metadata:
       labels:
-        app: django-container
+        pod: celery-worker
     spec:
       containers:
-        - name: django
+        - name: celery-worker
           image: gitumarkk/k8_django_minikube:part_4
-          ports:
-            - containerPort: 8000
+          command: ['celery', '-A', 'django-k8-app', 'worker', '-l', 'info']
           env:
             - name: POSTGRES_USER
               valueFrom:
@@ -34,7 +33,6 @@ spec:
 
             - name: POSTGRES_HOST
               value: postgres-service
-            
+
             - name: REDIS_HOST
               value: redis-service
-          

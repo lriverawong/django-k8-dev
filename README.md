@@ -78,6 +78,8 @@ IN scenario where mgirations needs to be re-run with the same image, the Job obj
 - Kubernetes allows the use of the service name i.e. postgres-service for domain name resolution to the pod IP.
 - run migrations via CLI
     - `kubectl exec <pod_name> -- python /app/manage.py migrate`
+- delete a job run through file
+    - `kubectl delete -f <path/job-migration.yaml`
 
 
 ## Steps
