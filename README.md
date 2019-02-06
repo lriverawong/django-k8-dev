@@ -1,9 +1,13 @@
 # Django Kubernetes Setup
 
-## Sources
-```
-https://medium.com/google-cloud/deploying-django-postgres-redis-containers-to-kubernetes-9ee28e7a146
-```
+## Software Stack
+- Django: Web App
+- Celery - Asynchronous task queue/job queue based on distributed message passing
+- Redis: In-memory data structure project implementing a distributred, in-memory key-value DB with optional durability.
+- PostgreSQL: Object-relational database management system. (RDBMS)
+- Docker
+- Kubernetes
+- GCP: Google Cloud Platform
 
 ## Theory Knowledge
 
@@ -41,6 +45,14 @@ Persistent Volume Claim
 A PVC is a request for storage by the user and allows for the user to consume abstract storage resources on the cluster.
 ```
 
+Job Resource
+```
+A Job creates a pod which runs a single task to completion.
+The downsides of using the Job resource to run migrations, is that the migrations cannot be run again without modifying the manifest file i.e. by updating the image name.
+IN scenario where mgirations needs to be re-run with the same image, the Job object needs to be deleted from server before it can be run again.
+```
+
+
 ## Plan
 - https://medium.com/@markgituma/kubernetes-local-to-production-with-django-1-introduction-d73adc9ce4b4
     - create simple django app in docker container and deploy in lcoal K8 cluster using minikube
@@ -64,15 +76,22 @@ A PVC is a request for storage by the user and allows for the user to consume ab
 
 
 ## Steps
-- Step 1
+
+- Step 1/2
     - setup minikube kubectl
     - create base image for sample app using Docker
     - start deployment of app on minikube
     - start service of app to expose app outside of cluster
-- Step 2
+- Step 3
     - use persistent volume subsystem for postgresql and setup PVC
     - use Secret resource API to handle credentials used by PostgreSQL and Django pods
     - initialize postgresql pods to use persistent volume
     - expose db as service to allow for access within cluster
     - update django app to access db
-    - run migrations using Job API
+    - run migrations using Job API and CLI
+- Step 4
+    - deploy redis into K8 cluster, and add a service to expose redis to django application
+    - update django to use redis as message broker and as a cache
+    - create celery tasks in Django app, and have deployment to process tasks for queue (celery worker) and have deployment for running periodic tasks (celery beat)
+    - add celery flower package as deployment and expose it as a service to allow from from web browser
+
