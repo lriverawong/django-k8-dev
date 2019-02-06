@@ -101,4 +101,6 @@ IN scenario where mgirations needs to be re-run with the same image, the Job obj
     - update django to use redis as message broker and as a cache
     - create celery tasks in Django app, and have deployment to process tasks for queue (celery worker) and have deployment for running periodic tasks (celery beat)
     - add celery flower package as deployment and expose it as a service to allow from from web browser
+- Step 5 --> HERE
+    - start setting up for deploying to GCP
 
